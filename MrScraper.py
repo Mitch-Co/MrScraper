@@ -20,7 +20,6 @@ autoAborter = True
 exitAfter = 8 * 3600
 startTime = time.time()
 
-# This will use cookies from a google account in edge
 useEdgeCookies = False
 
 # Safe mode settings
@@ -87,7 +86,6 @@ def downloadToFolder(name, urlToDownload, audioonly = "", extraargs = ""):
 
     os.system("start /wait cmd /MIN /c yt-dlp.exe " + dlpCommand)
 
-# loops until time on autoAborter runs out or downloadQueue is finished
 safeModeCount = 0
 while len(downloadQueue) > 0:
     if(autoAborter and ((time.time() - startTime) > exitAfter)):
