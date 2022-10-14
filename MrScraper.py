@@ -13,7 +13,7 @@ channelPath = "./DownloadList.csv"
 ytdlpPath = "./yt-dlp.exe"
 archiveFilename = "record.txt"
 storagePath = "./"
-maxParallel = 3
+maxParallel = 2
 
 # Stop spinning threads after exitAfter seconds
 autoAborter = True
@@ -105,6 +105,6 @@ while len(downloadQueue) > 0:
         time.sleep(safeStopTime)
 
 
-# Wait for all threads to stop (not too sure if nessisary?)
+# Wait for all threads to stop
 while (threading.active_count() > 1):
     time.sleep(0.3)
