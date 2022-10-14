@@ -45,11 +45,9 @@ with open(channelPath, newline ='') as toDownload:
             if(row["blockupdate"].lower() != "true"):
                 downloadQueue.append(row)
     except Exception as e:
-        abort("Hey dingus the CSV file is messed up" + str(e))
+        abort("The CSV file contains errors or missing fields" + str(e))
 
 
-# Yeah, I define functions right before I need them... 
-# Sue me
 def downloadToFolder(name, urlToDownload, audioonly = "", extraargs = ""):
     
     addSlash = ""
