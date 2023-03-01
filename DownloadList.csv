@@ -1,2 +1,2 @@
-name,audioonly,blockupdate,extraargs,url
-<File / Channel Name>,<TRUE/FALSE>,<TRUE/FALSE>,"<ARGS APPENDED TO DL COMMAND, CAN BE BLANK>",<URL OF CHANNEL/ PLAYLIST>
+name,audioonly,blockupdate,extraargs,videolimiter,url
+<File / Channel Name>,"<TRUE/FALSE, BLANK = FALSE>","<TRUE/FALSE, BLANK = FALSE>","<ARGS APPENDED TO DL COMMAND, CAN BE BLANK>","<MAX HORIZONTAL RESOLUTION, BLANK = NO RESTRICTION>",<URL OF CHANNEL/ PLAYLIST>
