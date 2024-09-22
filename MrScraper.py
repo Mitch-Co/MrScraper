@@ -1,6 +1,9 @@
 import os
+import shlex
+import subprocess
 import sys
 import csv
+
 # Import time. All of it.
 import time
 import threading
@@ -13,15 +16,15 @@ channelPath = "./DownloadList.csv"
 ytdlpPath = "./yt-dlp.exe"
 archiveFilename = "record.txt"
 storagePath = "./"
-maxParallel = 1
+maxParallel = 3
 
 # Stop spinning threads after exitAfter seconds
-autoAborter = False
-exitAfter = 10 * 3600
+autoAborter = True
+exitAfter = 8 * 3600
 startTime = time.time()
 
 # Can use cookies from browser
-useBrowserCookies = False
+useBrowserCookies = True
 browserName = "firefox"
 
 # Global video cap - sets max height of video globally
@@ -55,8 +58,6 @@ with open(channelPath, newline ='') as toDownload:
         abort("Hey dingus the CSV file is messed up" + str(e))
 
 
-# Yeah, I define functions right before I need them... 
-# Sue me
 def downloadToFolder(name, urlToDownload, audioonly = "", videolimiter= "", extraargs = ""):
     
     addSlash = ""
@@ -92,7 +93,6 @@ def downloadToFolder(name, urlToDownload, audioonly = "", videolimiter= "", extr
     dlpCommand = ""
     
     # I should be using some sort of stringbuilder to not add strings together like this
-    # Sue me
     if(audioFlag):
         dlpCommand += '-o "' + downloadFolder + '/%(title)s [%(id)s].%(ext)s" '
         dlpCommand += '--extract-audio --audio-format mp3 '
@@ -112,7 +112,13 @@ def downloadToFolder(name, urlToDownload, audioonly = "", videolimiter= "", extr
 
     print("----------- DOWNLOADING -----------\n" + "Folder Name: " + name + "\n" + "URL: " + urlToDownload + "\n" + "Audio Only: " + str(audioFlag) + "\n" + "Max Video Height: " + videoLimiterString + "\n"  + "Extra Args: " + extraargs + "\n" + "Full Command: yt-dlp.exe " + dlpCommand + "\n\n")
 
-    os.system("start /wait cmd /MIN /c yt-dlp.exe " + dlpCommand)
+    # os.system("start /wait cmd /MIN /c yt-dlp.exe " + dlpCommand)
+    dlpCommand = 'yt-dlp.exe ' + dlpCommand
+
+    fh = open("NUL","w")
+    process = subprocess.Popen(shlex.split(dlpCommand), stdout = fh)
+    process.wait()
+    fh.close()
 
 safeModeCount = 0
 while len(downloadQueue) > 0:
@@ -133,7 +139,6 @@ while len(downloadQueue) > 0:
         safeModeCount = 0
         time.sleep(safeStopTime)
 
-
-# Wait for all threads to stop (not too sure if nessisary?)
+# Wait for all threads to stop (there is definetly a function that does this without looping manually)
 while (threading.active_count() > 1):
     time.sleep(0.3)
